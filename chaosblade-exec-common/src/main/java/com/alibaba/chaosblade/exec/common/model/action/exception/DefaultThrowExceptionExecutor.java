@@ -23,6 +23,8 @@ import com.alibaba.chaosblade.exec.common.aop.EnhancerModel;
 import com.alibaba.chaosblade.exec.common.exception.InterruptProcessException;
 import com.alibaba.chaosblade.exec.common.model.FlagSpec;
 import com.alibaba.chaosblade.exec.common.util.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -30,6 +32,7 @@ import java.lang.reflect.InvocationTargetException;
  * @author Changjun Xiao
  */
 public class DefaultThrowExceptionExecutor implements ThrowExceptionExecutor {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultThrowExceptionExecutor.class);
     private static final String DEFAULT_EXCEPTION_MESSAGE = "chaosblade-mock-exception";
 
     private FlagSpec exceptionFlag;
@@ -54,7 +57,7 @@ public class DefaultThrowExceptionExecutor implements ThrowExceptionExecutor {
             exceptionMessage = DEFAULT_EXCEPTION_MESSAGE;
         }
         if (enhancerModel.getAction().equals(THROW_CUSTOM_EXCEPTION)) {
-            System.out.println(enhancerModel.getMethodArguments());
+            LOGGER.debug("--------------------",enhancerModel.getMethodArguments().toString());
             exception = throwCustomException(enhancerModel.getClassLoader(), enhancerModel.getActionFlag(exceptionFlag
                 .getName()), exceptionMessage);
         } else if (enhancerModel.getAction().equals(THROW_DECLARED_EXCEPTION)) {
