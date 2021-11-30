@@ -48,6 +48,7 @@ public class DefaultThrowExceptionExecutor implements ThrowExceptionExecutor {
 
     @Override
     public void run(EnhancerModel enhancerModel) throws Exception {
+        LOGGER.debug("run--------------------",enhancerModel.getMethodArguments().toString());
         Exception exception = null;
         String exceptionMessage = null;
         if (exceptionMessageFlag != null) {
@@ -67,6 +68,7 @@ public class DefaultThrowExceptionExecutor implements ThrowExceptionExecutor {
         if (exception != null) {
             InterruptProcessException.throwThrowsImmediately(exception);
         }
+        LOGGER.debug("run-------end-------------",enhancerModel.getMethodArguments().toString());
     }
 
     /**
