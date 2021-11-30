@@ -54,6 +54,7 @@ public class DefaultThrowExceptionExecutor implements ThrowExceptionExecutor {
             exceptionMessage = DEFAULT_EXCEPTION_MESSAGE;
         }
         if (enhancerModel.getAction().equals(THROW_CUSTOM_EXCEPTION)) {
+            System.out.println(enhancerModel.getMethodArguments());
             exception = throwCustomException(enhancerModel.getClassLoader(), enhancerModel.getActionFlag(exceptionFlag
                 .getName()), exceptionMessage);
         } else if (enhancerModel.getAction().equals(THROW_DECLARED_EXCEPTION)) {
