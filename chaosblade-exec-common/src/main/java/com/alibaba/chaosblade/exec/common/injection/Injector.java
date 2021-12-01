@@ -180,11 +180,9 @@ public class Injector {
     }
 
     private static void reportTrace(EnhancerModel enhancerModel) {
-
         try {
-
             Map<String, String> attachments = ReflectUtil.invokeMethod(enhancerModel.getMethodArguments()[0], "getAttachments", new Object[0], false);
-
+            System.out.println(attachments);
         } catch (Exception e) {
             LOGGER.warn("invokeMethod exception", e);
         }
