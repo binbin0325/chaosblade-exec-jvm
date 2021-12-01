@@ -17,7 +17,9 @@
 package com.alibaba.chaosblade.exec.plugin.ddubbo;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -219,10 +221,12 @@ public abstract class DubboEnhancer extends BeforeEnhancer {
                 return;
             }
             if (reportCount.getAndIncrement() <= 5) {
+                List<Map<String, Object>> list= new ArrayList<Map<String, Object>>();
                 Map<String, Object> params = new HashMap<String, Object>();
                 params.put("traceId", traceObj.toString());
                 params.put("timestamp", System.currentTimeMillis());
-                String paramsStr = new ObjectMapper().writeValueAsString(params);
+                list.add(params);
+                String paramsStr = new ObjectMapper().writeValueAsString(list);
                 String result = HttpClient.doPost(DDubboConstant.CHAOS_TRACE_UPLOAD, paramsStr);
                 System.out.println(result);
             }

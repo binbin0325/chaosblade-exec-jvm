@@ -75,9 +75,9 @@ public class HttpClient {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             // 设置连接主机服务器超时时间：15000毫秒
-            connection.setConnectTimeout(15000);
+            connection.setConnectTimeout(5000);
             // 设置读取主机服务器返回数据超时时间：60000毫秒
-            connection.setReadTimeout(60000);
+            connection.setReadTimeout(5000);
             // 默认值为：false，当向远程服务器传送数据/写数据时，需要设置为true
             connection.setDoOutput(true);
             // 默认值为：true，当前向远程服务读取数据时，设置为true，该参数可有可无
