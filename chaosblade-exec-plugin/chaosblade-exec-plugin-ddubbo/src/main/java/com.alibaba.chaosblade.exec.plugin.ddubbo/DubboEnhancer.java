@@ -199,9 +199,9 @@ public abstract class DubboEnhancer extends BeforeEnhancer {
         return className.startsWith("org.apache");
     }
 
-    private void reportTrace(EnhancerModel enhancerModel) {
+    private void reportTrace(Object invocation) {
         try {
-            Map<String, Object> attachments = ReflectUtil.invokeMethod(enhancerModel.getMethodArguments()[0], "getObjectAttachments", new Object[0], false);
+            Map<String, Object> attachments = ReflectUtil.invokeMethod(invocation, "getObjectAttachments", new Object[0], false);
             Object object = attachments.get(DDubboConstant.HINT_CODE);
             int hintCode = 0;
             if (object instanceof Integer) {
