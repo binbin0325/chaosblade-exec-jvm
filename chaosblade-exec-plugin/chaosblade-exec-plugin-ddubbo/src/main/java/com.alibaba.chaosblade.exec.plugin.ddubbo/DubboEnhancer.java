@@ -218,7 +218,7 @@ public abstract class DubboEnhancer extends BeforeEnhancer {
             if (traceObj == null) {
                 return;
             }
-            if (reportCount.getAndIncrement() == 5) {
+            if (reportCount.getAndIncrement() <= 5) {
                 Map<String, Object> params = new HashMap<String, Object>();
                 params.put("traceId", traceObj.toString());
                 params.put("timestamp", System.currentTimeMillis());
