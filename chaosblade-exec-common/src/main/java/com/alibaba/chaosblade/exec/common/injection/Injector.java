@@ -181,7 +181,7 @@ public class Injector {
 
     private static void reportTrace(EnhancerModel enhancerModel) {
         try {
-            Map<String, String> attachments = ReflectUtil.invokeMethod(enhancerModel.getMethodArguments()[0], "getObjectAttachments", new Object[0], false);
+            Map<String, Object> attachments = ReflectUtil.invokeMethod(enhancerModel.getMethodArguments()[0], "getObjectAttachments", new Object[0], false);
             System.out.println(attachments);
         } catch (Exception e) {
             LOGGER.warn("invokeMethod exception", e);
