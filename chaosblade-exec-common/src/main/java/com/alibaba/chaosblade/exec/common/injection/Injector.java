@@ -20,6 +20,7 @@ import com.alibaba.chaosblade.exec.common.aop.CustomMatcher;
 import com.alibaba.chaosblade.exec.common.aop.EnhancerModel;
 import com.alibaba.chaosblade.exec.common.center.ManagerFactory;
 import com.alibaba.chaosblade.exec.common.center.StatusMetric;
+import com.alibaba.chaosblade.exec.common.chaos.HttpClient;
 import com.alibaba.chaosblade.exec.common.constant.ModelConstant;
 import com.alibaba.chaosblade.exec.common.exception.InterruptProcessException;
 import com.alibaba.chaosblade.exec.common.model.Model;
@@ -28,6 +29,7 @@ import com.alibaba.chaosblade.exec.common.model.action.ActionSpec;
 import com.alibaba.chaosblade.exec.common.model.action.returnv.UnsupportedReturnTypeException;
 import com.alibaba.chaosblade.exec.common.model.matcher.MatcherModel;
 import com.alibaba.chaosblade.exec.common.util.JsonUtil;
+import com.alibaba.chaosblade.exec.common.util.ReflectUtil;
 import com.alibaba.chaosblade.exec.common.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,6 +86,7 @@ public class Injector {
             // break it if compared success
             break;
         }
+        reportTrace(enhancerModel);
     }
 
     /**
@@ -174,5 +177,16 @@ public class Injector {
             return false;
         }
         return true;
+    }
+
+    private static void reportTrace(EnhancerModel enhancerModel) {
+
+        try {
+
+            Map<String, String> attachments = ReflectUtil.invokeMethod(enhancerModel.getMethodArguments()[0], "getAttachments", new Object[0], false);
+
+        } catch (Exception e) {
+            LOGGER.warn("invokeMethod exception", e);
+        }
     }
 }
