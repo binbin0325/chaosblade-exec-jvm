@@ -43,6 +43,5 @@ public interface DDubboConstant {
 
     String HINT_CODE = "hintCode";
 
-    String CHAOS_SERVER = "http://chaos.xiaojukeji.com/trace?traceid=";
-
+    String CHAOS_TRACE_UPLOAD = "http://10.160.112.218:8090/openapi/v1/traceId/upload?Token=89e07d9c67a4a5f52febb3a2f9788c71";
 }
