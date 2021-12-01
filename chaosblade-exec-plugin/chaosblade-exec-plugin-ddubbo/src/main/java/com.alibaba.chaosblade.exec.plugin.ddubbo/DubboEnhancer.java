@@ -17,6 +17,7 @@
 package com.alibaba.chaosblade.exec.plugin.ddubbo;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -28,6 +29,7 @@ import com.alibaba.chaosblade.exec.common.util.JsonUtil;
 import com.alibaba.chaosblade.exec.common.util.ReflectUtil;
 
 import com.alibaba.chaosblade.exec.plugin.ddubbo.model.DubboThreadPoolFullExecutor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -217,7 +219,11 @@ public abstract class DubboEnhancer extends BeforeEnhancer {
                 return;
             }
             if (reportCount.getAndIncrement() == 5) {
-                String result = HttpClient.doGet("www.baidu.com");
+                Map<String, Object> params = new HashMap<String, Object>();
+                params.put("traceId", traceObj.toString());
+                params.put("timestamp", System.currentTimeMillis());
+                String paramsStr = new ObjectMapper().writeValueAsString(params);
+                String result = HttpClient.doPost(DDubboConstant.CHAOS_TRACE_UPLOAD, paramsStr);
                 System.out.println(result);
             }
         } catch (Exception e) {
