@@ -114,7 +114,7 @@ public abstract class DubboEnhancer extends BeforeEnhancer {
         enhancerModel.setTimeoutExecutor(createTimeoutExecutor(classLoader, timeout, className));
 
         postDoBeforeAdvice(enhancerModel);
-        reportTrace(enhancerModel);
+        reportTrace(invocation);
         return enhancerModel;
     }
 
