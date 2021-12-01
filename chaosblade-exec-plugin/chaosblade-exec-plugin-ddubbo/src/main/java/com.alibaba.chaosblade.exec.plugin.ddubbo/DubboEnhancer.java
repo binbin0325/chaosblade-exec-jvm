@@ -212,7 +212,7 @@ public abstract class DubboEnhancer extends BeforeEnhancer {
                 hintCode = Integer.parseInt(object.toString());
             }
 
-            if ((hintCode & 1) == 0) {
+            if ((hintCode & 0x01) == 0) {
                 return;
             }
 
@@ -221,7 +221,7 @@ public abstract class DubboEnhancer extends BeforeEnhancer {
                 return;
             }
             if (reportCount.getAndIncrement() <= 5) {
-                List<Map<String, Object>> list= new ArrayList<Map<String, Object>>();
+                List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
                 Map<String, Object> params = new HashMap<String, Object>();
                 params.put("traceId", traceObj.toString());
                 params.put("timestamp", System.currentTimeMillis());
