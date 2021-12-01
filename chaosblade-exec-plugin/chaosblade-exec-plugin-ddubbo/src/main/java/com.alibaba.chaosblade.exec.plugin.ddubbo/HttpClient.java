@@ -84,10 +84,12 @@ public class HttpClient {
             connection.setDoInput(true);
             // 设置传入参数的格式:请求参数应该是 name1=value1&name2=value2 的形式。
             connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Accept", "application/json");
             // 通过连接对象获取一个输出流
             os = connection.getOutputStream();
             // 通过输出流对象将参数写出去/传输出去,它是通过字节数组写出的
             os.write(param.getBytes());
+            os.flush();
             if (connection.getResponseCode() == 200) {
                 is = connection.getInputStream();
                 br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
