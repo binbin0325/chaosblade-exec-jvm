@@ -39,4 +39,10 @@ public interface DDubboConstant {
 
     String CALL_POINT_KEY = "call-point";
 
+    String TRACE_ID = "traceid";
+
+    String HINT_CODE = "hintCode";
+
+    String CHAOS_SERVER = "http://chaos.xiaojukeji.com/trace?traceid=";
+
 }

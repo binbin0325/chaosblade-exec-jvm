@@ -1,4 +1,4 @@
-package com.alibaba.chaosblade.exec.common.chaos;
+package com.alibaba.chaosblade.exec.plugin.ddubbo;
 
 import java.io.BufferedReader;
 import java.io.IOException;

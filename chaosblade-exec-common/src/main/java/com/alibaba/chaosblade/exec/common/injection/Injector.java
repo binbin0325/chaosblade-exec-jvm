@@ -20,7 +20,6 @@ import com.alibaba.chaosblade.exec.common.aop.CustomMatcher;
 import com.alibaba.chaosblade.exec.common.aop.EnhancerModel;
 import com.alibaba.chaosblade.exec.common.center.ManagerFactory;
 import com.alibaba.chaosblade.exec.common.center.StatusMetric;
-import com.alibaba.chaosblade.exec.common.chaos.HttpClient;
 import com.alibaba.chaosblade.exec.common.constant.ModelConstant;
 import com.alibaba.chaosblade.exec.common.exception.InterruptProcessException;
 import com.alibaba.chaosblade.exec.common.model.Model;
@@ -86,7 +85,6 @@ public class Injector {
             // break it if compared success
             break;
         }
-        reportTrace(enhancerModel);
     }
 
     /**
@@ -177,14 +175,5 @@ public class Injector {
             return false;
         }
         return true;
-    }
-
-    private static void reportTrace(EnhancerModel enhancerModel) {
-        try {
-            Map<String, Object> attachments = ReflectUtil.invokeMethod(enhancerModel.getMethodArguments()[0], "getObjectAttachments", new Object[0], false);
-            System.out.println(attachments);
-        } catch (Exception e) {
-            LOGGER.warn("invokeMethod exception", e);
-        }
     }
 }

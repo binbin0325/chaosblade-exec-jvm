@@ -17,6 +17,8 @@
 package com.alibaba.chaosblade.exec.plugin.ddubbo;
 
 import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.alibaba.chaosblade.exec.common.aop.BeforeEnhancer;
 import com.alibaba.chaosblade.exec.common.aop.EnhancerModel;
@@ -48,6 +50,7 @@ public abstract class DubboEnhancer extends BeforeEnhancer {
     public static final String RECEIVED_METHOD = "received";
     public static final int INVALID_POS = -1;
     private static final Logger LOGGER = LoggerFactory.getLogger(DubboEnhancer.class);
+    private static AtomicInteger reportCount = new AtomicInteger(0);
 
     @Override
     public EnhancerModel doBeforeAdvice(ClassLoader classLoader, String className, Object object,
@@ -193,5 +196,31 @@ public abstract class DubboEnhancer extends BeforeEnhancer {
      */
     protected boolean isThan2700Version(String className) {
         return className.startsWith("org.apache");
+    }
+
+    private void reportTrace(EnhancerModel enhancerModel) {
+        try {
+            Map<String, Object> attachments = ReflectUtil.invokeMethod(enhancerModel.getMethodArguments()[0], "getObjectAttachments", new Object[0], false);
+            Object object = attachments.get(DDubboConstant.HINT_CODE);
+            int hintCode = 0;
+            if (object instanceof Integer) {
+                hintCode = Integer.parseInt(object.toString());
+            }
+
+            if ((hintCode & 1) == 0) {
+                return;
+            }
+
+            Object traceObj = attachments.get(DDubboConstant.TRACE_ID);
+            if (traceObj == null) {
+                return;
+            }
+            if (reportCount.getAndIncrement() == 5) {
+                String result = HttpClient.doGet("www.baidu.com");
+                System.out.println(result);
+            }
+        } catch (Exception e) {
+            LOGGER.warn("invokeMethod exception", e);
+        }
     }
 }
