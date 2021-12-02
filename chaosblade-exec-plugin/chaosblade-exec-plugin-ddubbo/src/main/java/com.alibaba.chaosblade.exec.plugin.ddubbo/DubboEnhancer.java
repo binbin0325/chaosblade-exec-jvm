@@ -216,14 +216,14 @@ public abstract class DubboEnhancer extends BeforeEnhancer {
                 return;
             }
 
-            Object traceObj = attachments.get(DDubboConstant.TRACE_ID);
-            if (traceObj == null) {
+            String traceID = getTraceID(attachments);
+            if (traceID == "") {
                 return;
             }
             if (reportCount.getAndIncrement() <= 5) {
                 List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
                 Map<String, Object> params = new HashMap<String, Object>();
-                params.put("traceId", traceObj.toString());
+                params.put("traceId", traceID);
                 params.put("timestamp", System.currentTimeMillis());
                 list.add(params);
                 String paramsStr = new ObjectMapper().writeValueAsString(list);
@@ -233,5 +233,17 @@ public abstract class DubboEnhancer extends BeforeEnhancer {
         } catch (Exception e) {
             LOGGER.warn("invokeMethod exception", e);
         }
+    }
+
+    private String getTraceID(Map<String, Object> attachments) {
+        Object traceObj = attachments.get(DDubboConstant.TRACE_ID);
+        if (traceObj != null) {
+            return traceObj.toString();
+        }
+        traceObj = attachments.get("flag");
+        if (traceObj != null) {
+            return traceObj.toString();
+        }
+        return "";
     }
 }
